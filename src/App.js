@@ -1,40 +1,13 @@
-// import logo from './logo.svg';
 import { useState, useEffect } from "react";
 import "./App.css";
-// import "./Clavier.jsx";
+import {CHARS, RANDOM_WORD} from "./Constants";
 
 function App() {
-  const liste = [
-    "tableau",
-    "biscuit",
-    "exorciste",
-    "satan",
-    "hortensia",
-    "joker",
-    "chauve",
-    "supermarche",
-    "jacinth",
-    "cimetiere",
-    "papillon",
-    "accouchement",
-    "baraquement",
-    "parking",
-    "grenouille",
-    "saucisson",
-    "table",
-    "zebre",
-    "yaourt",
-    "yoyo",
-    "outils",
-    "hazbin",
-  ];
-  const [randomWord, setRandomWord] = useState(
-    liste[Math.ceil(Math.random() * liste.length - 1)] // choisi un mot aléoire dans la liste de mot
-  );
+  const [randomWord, setRandomWord] = useState(RANDOM_WORD);
 
   const [maskedWord, setMaskedWord] = useState("");
 
-  const setinitialMaskedWord = () => {
+  const setInitialMaskedWord = () => {
     let newMaskedWord = "";
     for (let i = 0; i < randomWord.length; i++) {
       newMaskedWord += "*";
@@ -42,219 +15,71 @@ function App() {
     setMaskedWord(newMaskedWord);
   };
 
+  const selectCharacter = (selectedChar) => {
+    const randomWordArray = Array.from(randomWord);
+    let newMaskedWord = maskedWord;
+
+    for(let i = 0; i < randomWordArray.length; i++){ 
+        if(selectedChar === randomWordArray[i]){
+          newMaskedWord = replaceAt(newMaskedWord, i, selectedChar)
+        }
+    }
+
+    if (!newMaskedWord.includes('*')){
+      disabledAllBtn()
+      showWon()
+    }
+
+    setMaskedWord(newMaskedWord);
+  }
+
+  const replaceAt = (wordAModifier, index, lettre) => {
+    return wordAModifier.substring(0, index) + lettre + wordAModifier.substring(index + lettre.length);
+  }
+
+  const disabledAllBtn = ()=>{
+    const elements = document.getElementsByClassName('btn-keya');
+      [].forEach.call(elements, function (element) {element.disabled = true});
+  }
+
+  const showWon = ()=>{
+    var elementGagner = document.getElementById("gagner");
+    elementGagner.classList.remove("hide");
+  }
+
   useEffect(() => {
     console.log("====================================");
     console.log(randomWord);
     console.log("====================================");
-    return setinitialMaskedWord();
-  }, [randomWord]);
+    return setInitialMaskedWord();
+  }, []);
 
   return (
-    <main>
-      <p>{maskedWord}</p>
-      <div className="btn-clavier">
-        <button
-          className="btn-keya"
-          onClick={(a) => {
-            a.target.disabled = true;
-          }}
-        >
-          a
-        </button>
-        <button
-          className="btn-keyb"
-          onClick={(b) => {
-            b.target.disabled = true;
-          }}
-        >
-          b
-        </button>
-        <button
-          className="btn-keyc"
-          onClick={(c) => {
-            c.target.disabled = true;
-          }}
-        >
-          c
-        </button>
-        <button
-          className="btn-keyd"
-          onClick={(d) => {
-            d.target.disabled = true;
-          }}
-        >
-          d
-        </button>
-        <button
-          className="btn-keye"
-          onClick={(e) => {
-            e.target.disabled = true;
-          }}
-        >
-          e
-        </button>
-        <button
-          className="btn-keyf"
-          onClick={(f) => {
-            f.target.disabled = true;
-          }}
-        >
-          f
-        </button>
-        <button
-          className="btn-keyg"
-          onClick={(g) => {
-            g.target.disabled = true;
-          }}
-        >
-          g
-        </button>
-        <button
-          className="btn-keyh"
-          onClick={(h) => {
-            h.target.disabled = true;
-          }}
-        >
-          h
-        </button>
-        <button
-          className="btn-keyi"
-          onClick={(i) => {
-            i.target.disabled = true;
-          }}
-        >
-          i
-        </button>
-        <button
-          className="btn-keyj"
-          onClick={(j) => {
-            j.target.disabled = true;
-          }}
-        >
-          j
-        </button>
-        <button
-          className="btn-keyk"
-          onClick={(k) => {
-            k.target.disabled = true;
-          }}
-        >
-          k
-        </button>
-        <button
-          className="btn-keyl"
-          onClick={(l) => {
-            l.target.disabled = true;
-          }}
-        >
-          l
-        </button>
-        <button
-          className="btn-keym"
-          onClick={(m) => {
-            m.target.disabled = true;
-          }}
-        >
-          m
-        </button>
-        <button
-          className="btn-keyn"
-          onClick={(n) => {
-            n.target.disabled = true;
-          }}
-        >
-          n
-        </button>
-        <button
-          className="btn-keyo"
-          onClick={(o) => {
-            o.target.disabled = true;
-          }}
-        >
-          o
-        </button>
-        <button
-          className="btn-keyp"
-          onClick={(p) => {
-            p.target.disabled = true;
-          }}
-        >
-          p
-        </button>
-        <button
-          className="btn-keyk"
-          onClick={(q) => {
-            q.target.disabled = true;
-          }}
-        >
-          q
-        </button>
-        <button
-          className="btn-keyr"
-          onClick={(r) => {
-            r.target.disabled = true;
-          }}
-        >
-          r
-        </button>
-        <button
-          className="btn-keys"
-          onClick={(s) => {
-            s.target.disabled = true;
-          }}
-        >
-          s
-        </button>
-        <button
-          className="btn-keyt"
-          onClick={(t) => {
-            t.target.disabled = true;
-          }}
-        >
-          t
-        </button>
-        <button
-          className="btn-keyu"
-          onClick={(u) => {
-            u.target.disabled = true;
-          }}
-        >
-          u
-        </button>
-        <button
-          className="btn-keyw"
-          onClick={(w) => {
-            w.target.disabled = true;
-          }}
-        >
-          w
-        </button>
-        <button
-          className="btn-keyx"
-          onClick={(x) => {
-            x.target.disabled = true;
-          }}
-        >
-          x
-        </button>
-        <button
-          className="btn-keyy"
-          onClick={(y) => {
-            y.target.disabled = true;
-          }}
-        >
-          y
-        </button>
-        <button
-          className="btn-keyz"
-          onClick={(z) => {
-            z.target.disabled = true;
-          }}
-        >
-          z
-        </button>
+    <div>
+      <div id="gagner" className="hide">
+        <h1>Vous avez gagné ^^ </h1>
       </div>
-    </main>
+      <div id="pendu">
+        <p>{maskedWord}</p>
+        <div className="btn-clavier">
+
+          {
+            CHARS.map ( myChar => {
+              return <button
+                        key = {myChar}
+                        className="btn-keya"
+                        onClick={(e) => {
+                          e.target.disabled = true
+                          selectCharacter(myChar)
+                        }}
+                      >
+                        {myChar}
+                      </button>
+          })
+          }
+        </div>
+      </div>
+    </div>
   );
 }
 
