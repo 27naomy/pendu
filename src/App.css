@@ -11,8 +11,15 @@ body {
   background-image: url("image/machine-a-ecrire.jpg");
   background: cover;
   background-repeat: no-repeat;
+  z-index: 1;
 }
 
 .hide{
   visibility: hidden;
+  position: fixed;
+}
+
+#gagner, #perdre {
+  text-align: center;
+  z-index: 10;
 }

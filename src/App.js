@@ -89,9 +89,17 @@ function App() {
     <div>
       <div id="gagner" className="hide">
         <h1>Vous avez gagné ^^ </h1>
+        <img  src="https://img.freepik.com/vecteurs-libre/vous-avez-gagne-illustration_183875-223.jpg" 
+              alt="Vous avez gagné ^^" 
+              width="350" 
+              height="350"/>
       </div>
       <div id="perdre" className="hide">
         <h1>Vous avez perdu !! </h1>
+        <img  src="https://d1csarkz8obe9u.cloudfront.net/posterpreviews/game-over-poster-design-template-f479214fda20e2267202e03bcbdba176_screen.jpg?ts=1616307820" 
+              alt="Vous avez gagné ^^" 
+              width="350" 
+              height="350"/>
       </div>
       <div id="pendu">
         <p>{maskedWord}</p>
