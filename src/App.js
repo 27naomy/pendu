@@ -5,9 +5,10 @@ import {CHARS, RANDOM_WORD} from "./Constants";
 function App() {
   const [randomWord, setRandomWord] = useState(RANDOM_WORD);
   const [maskedWord, setMaskedWord] = useState("");
-  const [compteurPerdu, setCompteurPerdu] = useState(0);
+  const [cmptClickWaste, setCmptClickWaste] = useState(0);
 
-  const setInitialMaskedWord = () => {
+  // Pour initialiser le mot caché par des *.
+  const initMaskedWord = () => {
     let newMaskedWord = "";
     for (let i = 0; i < randomWord.length; i++) {
       newMaskedWord += "*";
@@ -15,47 +16,52 @@ function App() {
     setMaskedWord(newMaskedWord);
   };
 
-  const selectCharacter = (selectedChar) => {
+  const clicChar = (selected) => {
     const randomWordArray = Array.from(randomWord);
     let newMaskedWord = maskedWord;
 
     let isFinded = false
     for(let i = 0; i < randomWordArray.length; i++){ 
-        if(selectedChar === randomWordArray[i]){
+        if(selected === randomWordArray[i]){
           isFinded = true
-          newMaskedWord = replaceAt(newMaskedWord, i, selectedChar)
+          newMaskedWord = replaceAt(newMaskedWord, i, selected)
         }
     }
 
     if(!isFinded) {
-      setCompteurPerdu(compteurPerdu +1)
+      setCmptClickWaste(cmptClickWaste +1)
     }
     setMaskedWord(newMaskedWord);
     
     checkIfEnd(newMaskedWord)
   }
 
+  // Fonction pour savoir si on a gaggné ou perdu (Fin de partie)
   const checkIfEnd = (newMaskedWord) => {
-    checkSiGangner(newMaskedWord)
-    checkSiPerdu()
+    checkIfWon(newMaskedWord)
+    checkIfWaste()
   }
  
-  const checkSiGangner = (newMaskedWord) => {
+  // Fonction pour savoir si on a gaggné
+  const checkIfWon = (newMaskedWord) => {
     if (!newMaskedWord.includes('*')){
       disabledAllBtn()
       showWon()
     }
   }
 
-  const checkSiPerdu = () => {
-    if (compteurPerdu === 4){
+  // Fonction pour savoir si on a perdu
+  const checkIfWaste = () => {
+    if (cmptClickWaste === 4){
       disabledAllBtn()
-      showPerdu()
+      showWaste()
     }
   }
 
-  const replaceAt = (wordAModifier, index, lettre) => {
-    return wordAModifier.substring(0, index) + lettre + wordAModifier.substring(index + lettre.length);
+  // Fonction pour remplacer la lettre de la position dans le motqui est dans toModify
+  // Par la lettre qui dans 'lettre'
+  const replaceAt = (toModify, position, lettre) => {
+    return toModify.substring(0, position) + lettre + toModify.substring(position + lettre.length);
   }
 
   const disabledAllBtn = ()=>{
@@ -63,21 +69,20 @@ function App() {
       [].forEach.call(elements, function (element) {element.disabled = true});
   }
 
+
   const showWon = ()=>{
-    var elementGagner = document.getElementById("gagner");
-    elementGagner.classList.remove("hide");
+    document.getElementById("gagner").classList.remove("hide");
   }
 
-  const showPerdu = ()=>{
-    var elementGagner = document.getElementById("perdre");
-    elementGagner.classList.remove("hide");
+  const showWaste = ()=>{
+    document.getElementById("perdre").classList.remove("hide");
   }
 
   useEffect(() => {
     console.log("====================================");
     console.log(randomWord);
     console.log("====================================");
-    return setInitialMaskedWord();
+    return initMaskedWord();
   }, []);
 
   return (
@@ -99,7 +104,7 @@ function App() {
                         className="btn-keya"
                         onClick={(e) => {
                           e.target.disabled = true
-                          selectCharacter(myChar)
+                          clicChar(myChar)
                         }}
                       >
                         {myChar}
