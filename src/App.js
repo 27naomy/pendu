@@ -1,6 +1,10 @@
 import { useState, useEffect } from "react";
 import "./App.css";
-import {CHARS, RANDOM_WORD} from "./Constants";
+import Image from "./composants/image"
+import {
+  CHARS, RANDOM_WORD, 
+  URL_IMAGE_WON, URL_IMAGE_WASTE,
+  LABEL_IMAGE_WON, LABEL_IMAGE_WASTE} from "./Constants";
 
 function App() {
   const [randomWord, setRandomWord] = useState(RANDOM_WORD);
@@ -88,18 +92,12 @@ function App() {
   return (
     <div>
       <div id="gagner" className="hide">
-        <h1>Vous avez gagné ^^ </h1>
-        <img  src="https://img.freepik.com/vecteurs-libre/vous-avez-gagne-illustration_183875-223.jpg" 
-              alt="Vous avez gagné ^^" 
-              width="350" 
-              height="350"/>
+         <Image  url= {URL_IMAGE_WON}
+                label={LABEL_IMAGE_WON} />
       </div>
       <div id="perdre" className="hide">
-        <h1>Vous avez perdu !! </h1>
-        <img  src="https://d1csarkz8obe9u.cloudfront.net/posterpreviews/game-over-poster-design-template-f479214fda20e2267202e03bcbdba176_screen.jpg?ts=1616307820" 
-              alt="Vous avez gagné ^^" 
-              width="350" 
-              height="350"/>
+        <Image  url= {URL_IMAGE_WASTE}
+                label={LABEL_IMAGE_WASTE} />
       </div>
       <div id="pendu">
         <p>{maskedWord}</p>
