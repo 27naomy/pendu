@@ -4,8 +4,8 @@ import {CHARS, RANDOM_WORD} from "./Constants";
 
 function App() {
   const [randomWord, setRandomWord] = useState(RANDOM_WORD);
-
   const [maskedWord, setMaskedWord] = useState("");
+  const [compteurPerdu, setCompteurPerdu] = useState(0);
 
   const setInitialMaskedWord = () => {
     let newMaskedWord = "";
@@ -19,18 +19,39 @@ function App() {
     const randomWordArray = Array.from(randomWord);
     let newMaskedWord = maskedWord;
 
+    let isFinded = false
     for(let i = 0; i < randomWordArray.length; i++){ 
         if(selectedChar === randomWordArray[i]){
+          isFinded = true
           newMaskedWord = replaceAt(newMaskedWord, i, selectedChar)
         }
     }
 
+    if(!isFinded) {
+      setCompteurPerdu(compteurPerdu +1)
+    }
+    setMaskedWord(newMaskedWord);
+    
+    checkIfEnd(newMaskedWord)
+  }
+
+  const checkIfEnd = (newMaskedWord) => {
+    checkSiGangner(newMaskedWord)
+    checkSiPerdu()
+  }
+ 
+  const checkSiGangner = (newMaskedWord) => {
     if (!newMaskedWord.includes('*')){
       disabledAllBtn()
       showWon()
     }
+  }
 
-    setMaskedWord(newMaskedWord);
+  const checkSiPerdu = () => {
+    if (compteurPerdu === 4){
+      disabledAllBtn()
+      showPerdu()
+    }
   }
 
   const replaceAt = (wordAModifier, index, lettre) => {
@@ -47,6 +68,11 @@ function App() {
     elementGagner.classList.remove("hide");
   }
 
+  const showPerdu = ()=>{
+    var elementGagner = document.getElementById("perdre");
+    elementGagner.classList.remove("hide");
+  }
+
   useEffect(() => {
     console.log("====================================");
     console.log(randomWord);
@@ -58,6 +84,9 @@ function App() {
     <div>
       <div id="gagner" className="hide">
         <h1>Vous avez gagné ^^ </h1>
+      </div>
+      <div id="perdre" className="hide">
+        <h1>Vous avez perdu !! </h1>
       </div>
       <div id="pendu">
         <p>{maskedWord}</p>
